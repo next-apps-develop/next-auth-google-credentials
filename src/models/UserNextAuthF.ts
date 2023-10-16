@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-const userSchema = new Schema({
+const UserSchemaNextAuthF = new Schema({
   email: {
     type: String,
     unique: true,
@@ -25,6 +25,6 @@ const userSchema = new Schema({
   }
 })
 
-const UserNP1 = models.User || model('UserNP1', userSchema)
+const UserNextAuthF = models.User || model('UserSchemaNextAuthF', UserSchemaNextAuthF)
 
-export default UserNP1
+export default UserNextAuthF
