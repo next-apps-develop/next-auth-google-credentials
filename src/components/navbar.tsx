@@ -43,12 +43,24 @@ const Navbar = () => {
           </button>
         </div>
       ) : (
-        <button
-          className='bg-sky-400 px-3 py-2 rounded'
-          onClick={() => signIn()}
-        >
-          Sign in
-        </button>
+        <>
+          <button
+            className='bg-sky-400 px-3 py-2 rounded'
+            onClick={() => signIn()}
+          >
+            Sign in
+          </button>
+
+          {/* <button
+            className='bg-sky-400 px-3 py-2 rounded'
+            onClick={() => signIn()}
+          >
+            Register
+          </button> */}
+          <Link href={'/register'}   className='bg-red-500 px-3 py-2 rounded'>
+            <h1>Sign up</h1>
+          </Link>
+        </>
       )}
     </nav>
   )

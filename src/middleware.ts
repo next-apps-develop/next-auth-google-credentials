@@ -3,28 +3,32 @@ import { getToken } from 'next-auth/jwt'
 import { userSchema } from './schemas/user.schema'
 
 export async function middleware(req: any) {
-  const { pathname } = req.nextUrl
-  const body = await req.json()
-  console.log({ body })
-  const token = await getToken({ req, secret: process.env.JWT_SECRET })
+  try {
+    
+    const token = await getToken({ req, secret: process.env.JWT_SECRET })
 
-  console.log(req.nextUrl.pathname)
-  if (req.nextUrl.pathname.startsWith('/dashboard')) {
-    if (!token) {
-      return NextResponse.redirect(new URL('/', req.url))
+    if (req.nextUrl.pathname.startsWith('/dashboard')) {
+      if (!token) {
+        return NextResponse.redirect(new URL('/login', req.url))
+      }
     }
-  }
 
-  if (req.nextUrl.pathname.startsWith('/api/auth/signup')) {
-    try {
-      await userSchema.validate(body)
-    } catch (error) {
-      console.log({ error })
-      return NextResponse.json(error, { status: 400 })
+    if (req.nextUrl.pathname.startsWith('/api/auth/signup')) {
+      try {
+        const body = await req.json()
+
+        await userSchema.validate(body)
+      } catch (error) {
+        console.log({ error })
+        return NextResponse.json(error, { status: 400 })
+      }
     }
-  }
 
-  return NextResponse.next()
+    return NextResponse.next()
+  } catch (error) {
+    console.log({ error })
+    return NextResponse.redirect(new URL('/', req.url))
+  }
 }
 
 export const config = {

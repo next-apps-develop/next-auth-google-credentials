@@ -17,10 +17,10 @@ const RegisterPage = () => {
     // }
   })
   const onSubmit = handleSubmit((data) => {
-    console.log('first', data)
+    // console.log('first', data)
   })
 
-  console.log({ errors })
+  // console.log({ errors })
   return (
     <div className='flex w-full justify-center'>
       <form action='' onSubmit={onSubmit} className='w-1/3' autoComplete='off'>
@@ -132,7 +132,6 @@ const RegisterPage = () => {
               const currentDate = new Date()
 
               const age = currentDate.getFullYear() - birdthDate.getFullYear()
-              console.log({ age })
               if (age >= 18) {
                 return true
               } else {
@@ -186,7 +185,7 @@ const RegisterPage = () => {
           className='w-full mb-3'
           onChange={(e) => {
             // @ts-ignore
-            console.log(e.target?.files[0] || 'a')
+            // console.log(e.target?.files[0] || 'a')
             // @ts-ignore
             setValue('photoUser', e.target?.files[0].name || '')
           }}

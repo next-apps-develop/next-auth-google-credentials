@@ -25,6 +25,8 @@ const UserSchemaNextAuthF = new Schema({
   }
 })
 
-const UserNextAuthF = models.User || model('UserSchemaNextAuthF', UserSchemaNextAuthF)
+const UserNextAuthF =
+  models.UserSchemaNextAuthF ||
+  model('UserSchemaNextAuthF', UserSchemaNextAuthF)
 
 export default UserNextAuthF

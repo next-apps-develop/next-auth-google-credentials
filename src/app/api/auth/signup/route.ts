@@ -1,6 +1,6 @@
 import User from '@/models/UserNextAuthF'
 import { NextResponse } from 'next/server'
-import bcript from 'bcryptjs'
+import bcrypt from 'bcryptjs'
 import { connectDB } from '@/libs/mongodb'
 export async function POST(request: Request) {
   const { fullName, email, password } = await request.json()
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const hashedPassword = await bcript.hash(password, 12)
+    const hashedPassword = await bcrypt.hash(password, 12)
     const user = new User({
       fullName: fullName,
       email,

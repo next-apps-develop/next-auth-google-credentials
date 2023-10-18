@@ -4,9 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer, toast } from 'react-toastify'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const RegisterPage = () => {
   const [error, seterror] = useState(null)
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -23,8 +26,11 @@ const RegisterPage = () => {
 
   const notify = () => toast(error)
 
+  useEffect(() => {
+    if (error) toast(error)
+  }, [error])
+
   const onSubmit = handleSubmit(async (data) => {
-    console.log('first', data)
     const { fullName, email, password } = data
     try {
       const res = await axios.post('api/auth/signup', {
@@ -32,11 +38,16 @@ const RegisterPage = () => {
         email,
         password
       })
-      console.log(res)
+
+      const resSignIn = await signIn('credentials', {
+        email: res.data.userSaved.email,
+        password,
+        redirect: false
+      })
+      if (resSignIn?.ok) router.push('/dashboard')
     } catch (error) {
       console.log({ error })
       if (error instanceof AxiosError) {
-        console.log('entra')
         // @ts-ignore
         seterror(error?.response?.data.msg || error.message)
         notify()
@@ -44,13 +55,9 @@ const RegisterPage = () => {
     }
   })
 
-  console.log({ error })
   return (
     <div className='flex w-full justify-center'>
-      <div>
-        {/* <button onClick={notify}>Notify!</button> */}
-        <ToastContainer />
-      </div>
+      {error && <ToastContainer />}
       <form action='' onSubmit={onSubmit} className='w-1/3' autoComplete='off'>
         <h1 className='text-4xl text-center'>Sign up</h1>
         <label htmlFor='fullName'>Name</label>
